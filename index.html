@@ -97,7 +97,6 @@
   	storageBucket: "seven-star-ent.firebasestorage.app",
   	messagingSenderId: "989909005914",
   	appId: "1:989909005914:web:212d14a6d47842c8a74a63",
-  	measurementId: "G-N5314XWHXE"
 	};
 
 	  // Initialize Firebase
@@ -114,22 +113,23 @@
 
 	  //fetch the data
 	  dataRef1.on('value', function(getdata1){
-	  	var price= getdata1.val();
-	  	document.getElementById('price').innerHTML = price + "Rs";
+	  	var vprice= getdata1.val();
+	  	document.getElementById('price').innerHTML = vprice ;
 	  })
 
 	   dataRef2.on('value', function(getdata2){
-	  	var qty= getdata2.val();
-	  	document.getElementById('qty').innerHTML = qty + "Lt;
+	  	var vqty= getdata2.val();
+	  	document.getElementById('qty').innerHTML = vqty ;
 	  })
 	  
 	  dataRef3.on('value', function(getdata3){
-	  	var rate= getdata3.val();
-	  	document.getElementById('rate').innerHTML = rate + "Rs";
+	  	var vrate= getdata3.val();
+	  	document.getElementById('rate').innerHTML = vrate ;
 	  })
 
 
 	</script>
 
 </body>
+
 </html>
