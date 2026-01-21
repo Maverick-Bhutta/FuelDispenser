@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Seven Start Ent</title>
+	<style type="text/css">
+		body{
+			background-color: #F5F5F5;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		.data-container{
+			justify-content: space-between;
+			width: 80%;
+			margin: 50px auto;
+			padding: 20px;
+			background-color: #FFF;
+			box-shadow: 0 2px 20px rgba(0, 0, 0,0.1);
+			border-radius: 10px;
+		}
+
+		.data-item{
+			text-align: center;
+		}
+
+		.data-item h2{
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		.data-item p{
+			font-size: 36px;
+			font-weight: bold;
+			color: #6EB7FF;
+		}
+
+		.data-head{
+			margin: auto;
+			width: 80%;
+			text-align: center;
+			font-size: 36px;
+			font-weight: bold;
+			margin: 50px auto;
+			padding: 20px;
+			background-color: #FFF;
+			box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+			border-radius: 20px;
+
+
+		}
+
+
+
+	</style>
+</head>
+<body>
+
+	<div class="data-head">Seven Star Ent</div>
+
+	<div class="data-container">
+		<div class="data-item">
+			<h2>Price</h2>
+			<p class="value" id="price">--</p>
+		</div>
+		<div class="data-item">
+			<h2>Quantity</h2>
+			<p class="value" id="qty">--</p>
+		</div>
+		<div class="data-item">
+			<h2>Rate</h2>
+			<p class="value" id="rate">--</p>
+		</div>
+
+		
+	</div>
+
+	<!-- the scripts for products you want to access must be added seperatily-->
+
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+	  // TODO: Add SDKs for Firebase products that you want to use
+
+	const firebaseConfig = {
+  	apiKey: "AIzaSyBxI0n-LPaAn8dAW--RLWpczN6a01W9DKE",
+  	authDomain: "seven-star-ent.firebaseapp.com",
+  	databaseURL: "https://seven-star-ent-default-rtdb.asia-southeast1.firebasedatabase.app",
+  	projectId: "seven-star-ent",
+  	storageBucket: "seven-star-ent.firebasestorage.app",
+  	messagingSenderId: "989909005914",
+  	appId: "1:989909005914:web:212d14a6d47842c8a74a63",
+  	measurementId: "G-N5314XWHXE"
+	};
+
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+
+
+	  // getting reference to the database
+	  var database = firebase.database();
+
+	  //getting reference to the data we want
+	  var dataRef1 = database.ref('Dispenser/Price');
+	  var dataRef2 = database.ref('Dispenser/Qty');
+	  var dataRef3 = database.ref('Dispenser/Rate');
+
+	  //fetch the data
+	  dataRef1.on('value', function(getdata1){
+	  	var price= getdata1.val();
+	  	document.getElementById('price').innerHTML = price + "Rs";
+	  })
+
+	   dataRef2.on('value', function(getdata2){
+	  	var qty= getdata2.val();
+	  	document.getElementById('qty').innerHTML = qty + "Lt;
+	  })
+	  
+	  dataRef3.on('value', function(getdata3){
+	  	var rate= getdata3.val();
+	  	document.getElementById('rate').innerHTML = rate + "Rs";
+	  })
+
+
+	</script>
+
+</body>
+</html>
