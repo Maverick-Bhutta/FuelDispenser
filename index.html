@@ -321,10 +321,10 @@
     units.forEach(function(unit){
       var basePath = 'Dispenser/' + unit;
 
-      var refPrice = db.ref(basePath + '/Price');
-      var refQty   = db.ref(basePath + '/Qty');
-      var refRate  = db.ref(basePath + '/Rate');
-      var refTotalM= db.ref(basePath + '/TotalM'); // optional server-provided total
+      var refPrice = db.ref(basePath + '/price');
+      var refQty   = db.ref(basePath + '/qty');
+      var refRate  = db.ref(basePath + '/rate');
+      var refTotalM= db.ref(basePath + '/totalM'); // optional server-provided total
 
       // Raw strings; keep as received. If null/undefined/empty -> treat as missing and show '--'
       var priceRaw = null;
