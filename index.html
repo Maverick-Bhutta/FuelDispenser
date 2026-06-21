@@ -304,7 +304,7 @@
           <div>Last update: <span id="Unit3-last">--</span></div>
         </div>
       </section>
-     <!-- Main panel (shown after successful login) -->
+	<div id="mainMsg" class="muted" style="margin-top:10px"></div>
     </div>
 	</main>
   </div>
@@ -342,12 +342,7 @@
     const btnLogin = document.getElementById('btnLogin');
     const btnClear = document.getElementById('btnClear');
     const loginMsg = document.getElementById('loginMsg');
-
-    const showUser = document.getElementById('showUser');
-    const showUid = document.getElementById('showUid');
     const mainMsg = document.getElementById('mainMsg');
-    const btnSignOut = document.getElementById('btnSignOut');
-    const btnRefresh = document.getElementById('btnRefresh');
 
     // Helpers for UI
     function showLoginError(text) {
@@ -358,24 +353,35 @@
       mainMsg.textContent = text || '';
     }   
 	async function checkCredentialsAndLogin(username, password, remember = true) {
-         // Save username in localStorage (no cookies)
+       if (!username) return showLoginError('Please enter username.');
+		// Save username in localStorage (no cookies)
         if (remember) localStorage.setItem('savedUsername', username);
-
         // Show main panel
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
         showMainMessage('Signed in successfully.');
         showLoginError('');
-      } 
+    } 
 	  // Load user by saved username (no password required) and show main panel
     async function loadUserBySavedUsername(savedUsername) {
       showLoginError('');
+	 showUser.textContent = `Username: ${user.username || savedUsername}`;
       showMainMessage('Loading saved user...')
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
         showMainMessage('Signed in from saved username.');
-      } 
-
+    } 
+	// Auto-login if saved username exists
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('savedUsername');
+      if (saved) {
+        // attempt to load user by saved username (no password)
+        loadUserBySavedUsername(saved);
+      } else {
+        loginArea.style.display = 'block';
+        mainPanel.style.display = 'none';
+      }
+    });
     // Button handlers
     btnLogin.addEventListener('click', () => {
       const username = usernameEl.value.trim();
