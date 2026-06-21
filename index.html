@@ -359,17 +359,16 @@
         // Show main panel
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
-        showMainMessage('Signed in successfully.');
+        showMainMessage(username +': Signed in successfully.');
         showLoginError('');
     } 
 	  // Load user by saved username (no password required) and show main panel
     async function loadUserBySavedUsername(savedUsername) {
       showLoginError('');
-	 showUser.textContent = `Username: ${user.username || savedUsername}`;
       showMainMessage('Loading saved user...')
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
-        showMainMessage('Signed in from saved username.');
+        showMainMessage(savedUsername + ' : Signed in from saved username.');
     } 
 	// Auto-login if saved username exists
     window.addEventListener('DOMContentLoaded', () => {
@@ -435,9 +434,9 @@
     // For each unit we expect nodes:
     // Dispenser/Unit1/Price, Dispenser/Unit1/Qty, Dispenser/Unit1/Rate, Dispenser/Unit1/TotalM (optional)
     var units = ['Unit1','Unit2','Unit3'];
-
+	const userName = localStorage.getItem('savedUsername');
     units.forEach(function(unit){
-      var basePath = 'Dispenser/' + unit;
+      var basePath = 'Dispenser/' + userName + unit;
 
       var refPrice = db.ref(basePath + '/price');
       var refQty   = db.ref(basePath + '/qty');
