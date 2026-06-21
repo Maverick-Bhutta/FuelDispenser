@@ -449,7 +449,7 @@
     var units = ['Unit1','Unit2','Unit3'];
 	const userName = localStorage.getItem('savedUsername');
     units.forEach(function(unit){
-      var basePath = 'Dispenser/' + userName + unit;
+      var basePath = 'Dispenser/' + '/' +userName + '/'+ unit;
 
       var refPrice = db.ref(basePath + '/price');
       var refQty   = db.ref(basePath + '/qty');
