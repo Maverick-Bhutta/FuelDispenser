@@ -304,6 +304,9 @@
           <div>Last update: <span id="Unit3-last">--</span></div>
         </div>
       </section>
+	<div style="margin-top:14px" class="row">
+        <button id="btnSignOut" style="background:#ef4444">Sign out</button>
+    </div>
 	<div id="mainMsg" class="muted" style="margin-top:10px"></div>
     </div>
 	</main>
@@ -343,6 +346,7 @@
     const btnClear = document.getElementById('btnClear');
     const loginMsg = document.getElementById('loginMsg');
     const mainMsg = document.getElementById('mainMsg');
+	const btnSignOut = document.getElementById('btnSignOut');
 
     // Helpers for UI
     function showLoginError(text) {
@@ -371,7 +375,7 @@
         showMainMessage(savedUsername + ' : Signed in from saved username.');
     } 
 	// Auto-login if saved username exists
-    window.addEventListener('DOMContentLoaded', () => {
+   /* window.addEventListener('DOMContentLoaded', () => {
       const saved = localStorage.getItem('savedUsername');
       if (saved) {
         // attempt to load user by saved username (no password)
@@ -381,6 +385,7 @@
         mainPanel.style.display = 'none';
       }
     });
+	*/
     // Button handlers
     btnLogin.addEventListener('click', () => {
       const username = usernameEl.value.trim();
@@ -394,7 +399,15 @@
         btnLogin.textContent = 'Login';
       });
     });
-
+	btnSignOut.addEventListener('click', () => {
+      localStorage.removeItem('savedUsername');
+      usernameEl.value = '';
+      passwordEl.value = '';
+      loginArea.style.display = 'block';
+      mainPanel.style.display = 'none';
+      showMainMessage('');
+      showLoginError('Signed out.');
+    });
     btnClear.addEventListener('click', () => {
       localStorage.removeItem('savedUsername');
       usernameEl.value = '';
