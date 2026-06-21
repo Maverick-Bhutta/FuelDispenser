@@ -173,7 +173,9 @@
       <h1>Seven Star Ent</h1>
       <p>Live readings for multiple dispensers — select a tab to view each unit</p>
     </header>
- 	<!-- Login form (shown on page open) -->
+	  	 
+    <main class="card" role="main" aria-label="Multi-dispenser dashboard">
+    <!-- Login form (shown on page open) -->
     <div id="loginArea">
       <h2>Sign in</h2>
       <div class="muted">Enter username and password (checked against Firebase users table).</div>
@@ -191,9 +193,8 @@
 
       <div id="loginMsg" class="error" role="status" aria-live="polite" style="display:none"></div>
     </div>
-	  	 <!-- Main panel (shown after successful login) -->
-    <main class="card" role="main" aria-label="Multi-dispenser dashboard">
-    <div id="mainPanel">
+		<!-- Main panel (shown after successful login) -->
+		<div id="mainPanel">
 	  <!-- Tabs for three dispensers -->
       <div class="tabs" role="tablist" aria-label="Dispenser units">
         <button class="tab-btn" role="tab" aria-selected="true" data-unit="Unit1" id="tab-Unit1">Unit 1</button>
@@ -357,10 +358,7 @@
       mainMsg.textContent = text || '';
     }   
 	async function checkCredentialsAndLogin(username, password, remember = true) {
-      showLoginError('');
-      showMainMessage('Checking credentials...')
-
-        // Save username in localStorage (no cookies)
+         // Save username in localStorage (no cookies)
         if (remember) localStorage.setItem('savedUsername', username);
 
         // Show main panel
@@ -369,7 +367,6 @@
         showMainMessage('Signed in successfully.');
         showLoginError('');
       } 
-    }
 	  // Load user by saved username (no password required) and show main panel
     async function loadUserBySavedUsername(savedUsername) {
       showLoginError('');
@@ -378,18 +375,6 @@
         mainPanel.style.display = 'block';
         showMainMessage('Signed in from saved username.');
       } 
-    }
-    // Auto-login if saved username exists
-    window.addEventListener('DOMContentLoaded', () => {
-      const saved = localStorage.getItem('savedUsername');
-      if (saved) {
-        // attempt to load user by saved username (no password)
-        loadUserBySavedUsername(saved);
-      } else {
-        loginArea.style.display = 'block';
-        mainPanel.style.display = 'none';
-      }
-    });
 
     // Button handlers
     btnLogin.addEventListener('click', () => {
