@@ -154,7 +154,7 @@
       color:var(--muted);
       font-size:13px;
     }
-	
+	.error{color:#dc2626;margin-top:8px}
 	.muted{color:#6b7280;font-size:13px;margin-top:8px}
     #mainPanel{display:none}
 	
@@ -173,9 +173,7 @@
       <h1>Seven Star Ent</h1>
       <p>Live readings for multiple dispensers — select a tab to view each unit</p>
     </header>
-
-    <main class="card" role="main" aria-label="Multi-dispenser dashboard">
-      <!-- Login form (shown on page open) -->
+ 	<!-- Login form (shown on page open) -->
     <div id="loginArea">
       <h2>Sign in</h2>
       <div class="muted">Enter username and password (checked against Firebase users table).</div>
@@ -193,7 +191,8 @@
 
       <div id="loginMsg" class="error" role="status" aria-live="polite" style="display:none"></div>
     </div>
-	 <!-- Main panel (shown after successful login) -->
+	  	 <!-- Main panel (shown after successful login) -->
+    <main class="card" role="main" aria-label="Multi-dispenser dashboard">
     <div id="mainPanel">
 	  <!-- Tabs for three dispensers -->
       <div class="tabs" role="tablist" aria-label="Dispenser units">
@@ -332,10 +331,9 @@
     } else {
       firebase.app();
     }
-
     var db = firebase.database();
-	// ====================Login Form data / function here========================
-	// UI refs
+	  
+	// ====================Login Form data / function here=======================
     const loginArea = document.getElementById('loginArea');
     const mainPanel = document.getElementById('mainPanel');
     const usernameEl = document.getElementById('username');
@@ -357,78 +355,30 @@
     }
     function showMainMessage(text) {
       mainMsg.textContent = text || '';
-    }
-
-    // Query DB for a username and return the user object (or null)
-    async function findUserByUsername(username) {
-      const usersRef = ref(db, 'users');
-      const q = query(usersRef, orderByChild('username'), equalTo(username));
-      const snap = await get(q);
-      if (!snap.exists()) return null;
-      const users = snap.val();
-      const keys = Object.keys(users);
-      const userKey = keys[0];
-      const userData = users[userKey];
-      // include the DB key as uid if userData.uid is not present
-      return { key: userKey, ...userData };
-    }
-
-    // Check credentials (plaintext comparison per user's setup)
-    async function checkCredentialsAndLogin(username, password, remember = true) {
+    }   
+	async function checkCredentialsAndLogin(username, password, remember = true) {
       showLoginError('');
-      showMainMessage('Checking credentials...');
-      try {
-        const user = await findUserByUsername(username);
-        if (!user) {
-          showMainMessage('');
-          return showLoginError('Username not found.');
-        }
-        if (user.password !== password) {
-          showMainMessage('');
-          return showLoginError('Incorrect password.');
-        }
+      showMainMessage('Checking credentials...')
 
         // Save username in localStorage (no cookies)
         if (remember) localStorage.setItem('savedUsername', username);
 
         // Show main panel
-        showUser.textContent = `Username: ${user.username || username}`;
-        showUid.textContent = `UID: ${user.uid || user.key}`;
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
         showMainMessage('Signed in successfully.');
         showLoginError('');
-      } catch (err) {
-        console.error(err);
-        showMainMessage('');
-        showLoginError('Failed to read database. Check config and rules.');
-      }
+      } 
     }
-
-    // Load user by saved username (no password required) and show main panel
+	  // Load user by saved username (no password required) and show main panel
     async function loadUserBySavedUsername(savedUsername) {
       showLoginError('');
-      showMainMessage('Loading saved user...');
-      try {
-        const user = await findUserByUsername(savedUsername);
-        if (!user) {
-          showMainMessage('');
-          showLoginError('Saved username not found in database.');
-          localStorage.removeItem('savedUsername');
-          return;
-        }
-        showUser.textContent = `Username: ${user.username || savedUsername}`;
-        showUid.textContent = `UID: ${user.uid || user.key}`;
+      showMainMessage('Loading saved user...')
         loginArea.style.display = 'none';
         mainPanel.style.display = 'block';
         showMainMessage('Signed in from saved username.');
-      } catch (err) {
-        console.error(err);
-        showMainMessage('');
-        showLoginError('Failed to load saved user.');
-      }
+      } 
     }
-
     // Auto-login if saved username exists
     window.addEventListener('DOMContentLoaded', () => {
       const saved = localStorage.getItem('savedUsername');
@@ -465,35 +415,6 @@
       mainPanel.style.display = 'none';
     });
 
-    btnSignOut.addEventListener('click', () => {
-      localStorage.removeItem('savedUsername');
-      usernameEl.value = '';
-      passwordEl.value = '';
-      loginArea.style.display = 'block';
-      mainPanel.style.display = 'none';
-      showMainMessage('');
-      showLoginError('Signed out.');
-    });
-
-    btnRefresh.addEventListener('click', async () => {
-      const saved = localStorage.getItem('savedUsername') || usernameEl.value.trim();
-      if (!saved) return showMainMessage('No username to refresh.');
-      try {
-        const user = await findUserByUsername(saved);
-        if (!user) {
-          showMainMessage('');
-          showLoginError('Username not found in database.');
-          return;
-        }
-        showUser.textContent = `Username: ${user.username || saved}`;
-        showUid.textContent = `UID: ${user.uid || user.key}`;
-        showMainMessage('Profile refreshed.');
-      } catch (err) {
-        console.error(err);
-        showMainMessage('');
-        showLoginError('Failed to refresh profile.');
-      }
-    });
 	//===================Login Form Data function end here=======================
 	
     // Helper: set input value exactly as required; do not infer or add values when missing
