@@ -469,10 +469,11 @@
         if(priceRaw === null){
           setValue(unit + '-price','--');
         } else {
-          setValue(unit + '-price', priceRaw);
+		  var parsed = parseFloat(priceRaw);
+          setValue(unit + '-price', parsed);
         }
         setTimestamp(unit + '-last');
-        computeTotalIfPossible();
+        
       }, function(err){
         console.error(unit + ' price read error', err);
         setValue(unit + '-price','--');
@@ -485,10 +486,11 @@
         if(qtyRaw === null){
           setValue(unit + '-qty','--');
         } else {
-          setValue(unit + '-qty', qtyRaw );
+		  var parsed = parseFloat(qtyRaw);
+          setValue(unit + '-qty', parsed);
         }
         setTimestamp(unit + '-last');
-        computeTotalIfPossible();
+
       }, function(err){
         console.error(unit + ' qty read error', err);
         setValue(unit + '-qty','--');
@@ -501,10 +503,10 @@
         if(rateRaw === null){
           setValue(unit + '-rate','--');
         } else {
-          setValue(unit + '-rate', rateRaw);
+		  var parsed = parseFloat(rateRaw);
+          setValue(unit + '-rate', parsed);
         }
         setTimestamp(unit + '-last');
-        computeTotalIfPossible();
       }, function(err){
         console.error(unit + ' rate read error', err);
         setValue(unit + '-rate','--');
@@ -515,22 +517,17 @@
         var v = snap.val();
         totalRaw = (v === null || v === undefined || v === '') ? null : String(v);
         if(totalRaw === null){
-          // if server total not provided, attempt compute only if qty & rate are present
-          //computeTotalIfPossible();
+          setValue(unit + '-total','--');
         } else {
-          // show server-provided total exactly as received; append Rs only if numeric
+
           var parsed = parseFloat(totalRaw);
-          if(!isNaN(parsed)){
             setValue(unit + '-total', (parsed % 1 === 0 ? parsed : parsed.toFixed(2)));
-          } else {
-            setValue(unit + '-total', totalRaw);
-          }
         }
         setTimestamp(unit + '-last');
       }, function(err){
         console.error(unit + ' total read error', err);
         totalRaw = null;
-        computeTotalIfPossible();
+        //computeTotalIfPossible();
       });
 	  //Dispenser mode display
 		refMode.on('value', function(snap){
