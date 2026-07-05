@@ -178,7 +178,7 @@
     <!-- Login form (shown on page open) -->
     <div id="loginArea">
       <h2>Sign in</h2>
-      <div class="muted">Enter username and password (checked against Firebase users table).</div>
+      <div class="muted">Enter username and password</div>
 
       <label for="username">Username</label>
       <input id="username" type="text" autocomplete="username" />
@@ -194,7 +194,7 @@
       <div id="loginMsg" class="error" role="status" aria-live="polite" style="display:none"></div>
     </div>
 		<!-- Main panel (shown after successful login) -->
-		<div id="mainPanel">
+	<div id="mainPanel">
 	  <!-- Tabs for three dispensers -->
       <div class="tabs" role="tablist" aria-label="Dispenser units">
         <button class="tab-btn" role="tab" aria-selected="true" data-unit="Unit1" id="tab-Unit1">Unit 1</button>
@@ -206,27 +206,23 @@
       <section id="panel-Unit1" class="panel" role="tabpanel" aria-labelledby="tab-Unit1">
         <div class="dispenser-grid" aria-live="polite">
           <div class="item">
-            <h3>Price</h3>
+            <h3>Fuel Price</h3>
             <input id="Unit1-price" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Price (Rs)</div>
           </div>
 
           <div class="item">
-            <h3>Quantity</h3>
+            <h3>Quantity </h3>
             <input id="Unit1-qty" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Quantity (Lt)</div>
           </div>
 
           <div class="item">
-            <h3>Rate</h3>
+            <h3>Fuel Rate</h3>
             <input id="Unit1-rate" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Rate (Rs)</div>
           </div>
 
           <div class="item">
-            <h3>Total</h3>
+            <h3>Total </h3>
             <input id="Unit1-total" class="value" type="text" value="--" readonly />
-			<div class="small">Total Meter (Lt)</div>
           </div>
         </div>
 
@@ -240,27 +236,23 @@
       <section id="panel-Unit2" class="panel" role="tabpanel" aria-labelledby="tab-Unit2" hidden>
         <div class="dispenser-grid" aria-live="polite">
           <div class="item">
-            <h3>Price</h3>
+            <h3>Fuel Price</h3>
             <input id="Unit2-price" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Price (Rs)</div>
           </div>
 
           <div class="item">
             <h3>Quantity</h3>
             <input id="Unit2-qty" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Quantity (Lt)</div>
           </div>
 
           <div class="item">
-            <h3>Rate</h3>
+            <h3>Fuel Rate</h3>
             <input id="Unit2-rate" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Rate (Rs)</div>
           </div>
 
           <div class="item">
             <h3>Total</h3>
             <input id="Unit2-total" class="value" type="text" value="--" readonly />
-			<div class="small">Total Meter (Lt)</div>
           </div>
         </div>
 
@@ -274,21 +266,18 @@
       <section id="panel-Unit3" class="panel" role="tabpanel" aria-labelledby="tab-Unit3" hidden>
         <div class="dispenser-grid" aria-live="polite">
           <div class="item">
-            <h3>Price</h3>
+            <h3>Fuel Price</h3>
             <input id="Unit3-price" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Price (Rs)</div>
           </div>
 
           <div class="item">
             <h3>Quantity</h3>
             <input id="Unit3-qty" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Quantity (Lt)</div>
           </div>
 
           <div class="item">
-            <h3>Rate</h3>
+            <h3>Fuel Rate</h3>
             <input id="Unit3-rate" class="value" type="text" value="--" readonly />
-			<div class="small">Fuel Rate (Rs)</div>
           </div>
 
           <div class="item">
@@ -541,25 +530,25 @@
         setModeDot(unit, false);
       });
       // Compute total only when server total is not provided and both qty & rate are present and numeric.
-      function computeTotalIfPossible(){
-        if(totalRaw !== null){
+      function computePriceIfPossible(){
+        if(priceRaw !== null){
           // server total exists — already displayed
           return;
         }
         if(qtyRaw === null || rateRaw === null){
           // do not infer or display any computed value when data missing
-          setValue(unit + '-total','--');
+          setValue(unit + '-price','--');
           return;
         }
         var q = parseFloat(qtyRaw);
         var r = parseFloat(rateRaw);
         if(isNaN(q) || isNaN(r)){
-          setValue(unit + '-total','--');
+          setValue(unit + '-price','--');
           return;
         }
         var total = q * r;
-        var display = (total % 1 === 0) ? total + ' Rs' : total.toFixed(2) + ' Rs';
-        setValue(unit + '-total', display);
+        var display = (price % 1 === 0) ? price + ' Rs' : price.toFixed(2) + ' Rs';
+        setValue(unit + '-price', display);
       }
     });
 
